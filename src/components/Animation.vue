@@ -61,52 +61,18 @@
 </template>
 
 <script>
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { onMounted } from "@vue/runtime-core";
 import letterAnimate from "../hooks/letterAnimate.js";
 import wordAnimate from "../hooks/wordAnimate.js";
+import scrollLoad from "../hooks/scrollLoad.js";
 
 export default {
-  created() {
-    gsap.registerPlugin(ScrollTrigger);
-  },
-
   setup() {
     onMounted(() => {
       wordAnimate("h1", 1);
       letterAnimate("h2", 1);
       wordAnimate("longTextAnim", 2);
-      gsap.utils.toArray(".pictures").forEach((section) => {
-        const elems = section.querySelectorAll(".pic");
-
-        gsap.set(elems, { y: 100, opacity: 0 });
-
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top 70%",
-          onEnter: () =>
-            gsap.to(elems, {
-              y: 0,
-              opacity: 1,
-              duration: 1,
-              stagger: 0.2,
-              delay: 0.1,
-              ease: "power3.out",
-              overwrite: "auto",
-            }),
-          onLeaveBack: () =>
-            gsap.to(elems, {
-              y: 100,
-              opacity: 0,
-              duration: 1,
-              stagger: 0.2,
-              delay: 0.1,
-              ease: "power3.out",
-              overwrite: "auto",
-            }),
-        });
-      });
+      scrollLoad("pictures", "pic");
     });
 
     return {
